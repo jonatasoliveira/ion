@@ -9,49 +9,29 @@
 
     <body>
 	    <div id="container">
-        <div id="header">
-            <h1><a href="{{base_url}}">Title</a></h1>
-            <ul id="menu">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Login</a></li>
-            </ul>
-        </div>
+            <header id="page-header">
+                <h1><a href="{{base_url}}">Ionize</a></h1>
+                <ul id="menu">
+                    <li><a href="{{base_url}}home">Home</a></li>
+                    <li><a href="{{base_url}}login">Login</a></li>
+                </ul>
+            </header>
 
-        <div id="content">
-            <h2>{{title}}</h2>
-            <small>{{date}}<small>
-            <div>{{content}}</div>
+            <div id="content">
+                <article>
+                <h2 class='title'>{{title}}</h2>
+                <span class='date'>{{date}}</span>
+                <div class='entry'>{{content}}</div>
+                </article>
+            </div>
+            
+            <aside id="sidebar">
+                {{last_pages}}
+            </aside>
+            
+            <footer id="page-footer">
+                Ionize
+            </footer>
         </div>
-
-        <div id="sidebar">
-            <table>
-	            <tr>
-		            <td>Item 1</td>
-		            <td>Item 1</td>
-	            </tr>
-	            <tr>
-		            <td>Item 2</td>
-		            <td>Item 1</td>
-	            </tr>
-	            <tr>
-		            <td>Item 3</td>
-		            <td>Item 1</td>
-	            </tr>
-	            <tr>
-		            <td>Item 4</td>
-		            <td>Item 1</td>
-	            </tr>
-	            <tr>
-		            <td>Item 5</td>
-		            <td>Item 1</td>
-	            </tr>
-            </table>
-        </div>
-        
-        <div id="footer">
-            Copyright &copy;
-        </div>
-    </div>
-
     </body>
 </html>

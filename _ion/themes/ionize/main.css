@@ -1,23 +1,15 @@
 
-a img { border: none; }
-hr { clear:both; margin: 10px 0; border: none; }
+* { margin: 0; padding: 0; }
+
 ul, li { list-style: none; }
 
-a, h2 a:hover, h3 a:hover {
-	text-decoration: none;
-	color: #158;
-}
-
-a:hover {
-	color: #333;
-}
+a, a:hover { color: #069; }
 
 p { margin: 15px 0; }
-
 p img { padding: 0; }
 
 body {
-    background: #FFF;
+    background: #EEE;
     font: normal 14px Arial, Sans-Serif;
 	text-align: center;
 	color: #333;
@@ -30,70 +22,59 @@ button {
     color: #444;
 }  
 
-table, td { border: 1px solid #CCC; }
-td { padding: 5px; }
 input, textarea {
     border: 1px solid #CCC;
 }
 
-h2 { font-size: 20px; }
-h3 { font-size: 18px; }
+h1 {
+    font-size: 30px;
+}
 
-h1, h1 a, h1 a:hover, h1 a:visited {
+h1 a {
 	text-decoration: none;
-	}
-
-h2, h2 a, h2 a:visited {
-    color: #BBB;
-}
-h3, h3 a, h3 a:visited {
-	color: #BBB;
-}
-
-h2 a:hover, h3 a:hover {
-    color: #333;
 }
 
 h2 {
-    font-size: 27px;
-    padding-bottom: 2px;
-    clear: left;
+    font-size: 20px;
     text-transform: uppercase;
     text-align: left;
 }
 
 h3 { font-size: 18px; }
 
-#content h2 {
-    color: #BBB;
-    font-weight: bold;
-    letter-spacing: -2px;
-    line-height: 1;
-}
 
 #container {
     border: 1px solid #DDD;
 	margin: 10px auto;
-    width: 860px;
-    padding: 0 20px;
+    width: 940px;
+    padding: 20px;
     background: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px #BBB;
 }
 
-#header { text-align: left; border-bottom: 1px solid #CCC; }
+#page-header {
+    text-align: left;
+    border-bottom: 1px solid #CCC;
+}
 
 #menu {
     text-align: left;
     margin: 15px 0 0;
-    padding: 0;
+    padding: 10px;
+    background: #333;
 }
 
 #menu li {	display: inline; }
 
 #menu a {
-	margin-right: 20px;
+	margin-right: 10px;
 	text-transform: uppercase;
 	font-size: 14px;
+    color: #FFF;
+    padding: 5px;
 	font-weight: bold;
+    text-decoration: none;
 }
 
 #menu a:hover {
@@ -103,12 +84,20 @@ h3 { font-size: 18px; }
 
 /*--------CONTEUDO----------*/
 #content {
-    padding: 20px 0 30px;
+    padding: 20px 0;
     text-align: left;
     float: left;
 	width: 600px;
 }
 
+.date {
+    color: #F50;
+    font-size: 11px;
+}
+
+.entry {
+    padding: 20px 0;
+}
 
 /*SIDEBAR----------------*/
 #sidebar {
@@ -126,7 +115,7 @@ h3 { font-size: 18px; }
 }
 
 /*--- RODAPE ---*/
-#footer {
+#page-footer {
     clear: both;
     text-align: left;
     padding: 10px 0 20px;
