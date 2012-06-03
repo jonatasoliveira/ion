@@ -12,6 +12,8 @@ import os
 import json
 import re
 import sys
+import shutil
+from configparser import ConfigParser
 
 
 if sys.version_info.major < 3:
@@ -27,7 +29,6 @@ CFG = {
 
 def load_config():
     '''Loads a file from a ini file in system folder'''
-    from configparser import ConfigParser
 
     parser = ConfigParser()
     # getcwd allows calling ion.py from wherever it is
@@ -181,7 +182,6 @@ def ion_charge(path):
 
 def ion_spark(path):
     '''Creates a new page in specified path'''
-    import shutil
     if not os.path.exists(path):
         os.makedirs(path)
 

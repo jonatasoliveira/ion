@@ -1,10 +1,26 @@
 
 # Íon - Shocking simple static (site) generator
 
+## About
+Static site generators are softwares that produces HTML and other static web formats like JSON as output. This output is then served as any website, just like the early years of web, what makes it fast. Content and templates are kept separated in different files, so changes are easy to make.
+
+The advantages of static site generators are:
+* Security - No database, no user input, nothing. Just plain old HTML.
+* Performance - As I said, it's just HTML. Servers will love you.
+* Easy to migrate/copy from/to anywhere. It's just a bunch of plain files.
+* Easy to track changes and maintain websites with version controls systems like git.
+
+And the disadvantages:
+* No comments, pingbacks, search, contact forms or anything dynamic (although most of this itens can be implemented with third party services like Disqus)
+* Not very user-friendly.
+
+So, static site generators are systems you can use for specific cases.
+
 ## Quickstart
 
-### Installing Íon
-Íon comes with a **_ion** folder and a Python **ion.py** script. Put these files in a new directory in your web root. If you want to create more than one site, move **ion.py** out of the directory created and put it in system PATH. Regardless of its location, **ion.py** must be run in the root folder of your site (i.e. the same where the folder **_ion** is).
+### Install Íon
+Íon comes with a **_ion** folder and a Python **ion.py** script. 
+Put these files in a new directory in your web root. If you want to create more than one site, move **ion.py** out of the directory created and put it in system PATH. Regardless of its location, **ion.py** must be run in the root folder of your site (i.e. the same where the folder **_ion** is).
 
 You need Python 3 to run Íon.
 
@@ -30,14 +46,14 @@ This will create a *data.ion* model file. You're ready to start adding your own 
     content:
     My page content
 
-Now run the charge command to generate the HTML:
+Now run the *charge* command:
     
     python3 ion.py charge
 
 This will create a HTML and a JSON file in the folder you specified. Done!
 
 ### Theming and page variables.
-You can add new themes to **_ion/themes**, create and use optional variables without having to edit all your previous *.ion* files. If you want a page to use a specific theme, just add the definition in data.ion:
+You can add new themes to **_ion/themes**, create and use optional variables without having to edit all your previous *.ion* files. If you want a page to use a specific theme, just add the definition in *data.ion*:
 
     title: My first post
     theme: mytheme
@@ -61,7 +77,6 @@ Just put the files in the page folder and Íon will create the tags in your them
 ### And another thing...
 * All page content stay in its own folder - so each page is independent.
 * Uses the file system hierarchy to simulate pages and sub-pages.
-* Easy to track changes and maintain websites with version controls systems like git.
 
 ## Roadmap
 * Generate RSS feeds
