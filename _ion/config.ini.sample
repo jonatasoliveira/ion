@@ -1,0 +1,9 @@
+[ion]
+# base_url must have a trailing slash
+base_url = http://yoursite.url/
+
+# theme used by default if a custom theme is not provided in data files
+default_theme = default
+
+# directories ion should not enter, comma separated
+# blocked_dirs = com, mydir, folder/sub

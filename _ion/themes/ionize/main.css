@@ -1,0 +1,135 @@
+
+a img { border: none; }
+hr { clear:both; margin: 10px 0; border: none; }
+ul, li { list-style: none; }
+
+a, h2 a:hover, h3 a:hover {
+	text-decoration: none;
+	color: #158;
+}
+
+a:hover {
+	color: #333;
+}
+
+p { margin: 15px 0; }
+
+p img { padding: 0; }
+
+body {
+    background: #FFF;
+    font: normal 14px Arial, Sans-Serif;
+	text-align: center;
+	color: #333;
+}
+
+button {
+    padding: 4px;
+    font-weight: bold;
+    font-size: 11px;
+    color: #444;
+}  
+
+table, td { border: 1px solid #CCC; }
+td { padding: 5px; }
+input, textarea {
+    border: 1px solid #CCC;
+}
+
+h2 { font-size: 20px; }
+h3 { font-size: 18px; }
+
+h1, h1 a, h1 a:hover, h1 a:visited {
+	text-decoration: none;
+	}
+
+h2, h2 a, h2 a:visited {
+    color: #BBB;
+}
+h3, h3 a, h3 a:visited {
+	color: #BBB;
+}
+
+h2 a:hover, h3 a:hover {
+    color: #333;
+}
+
+h2 {
+    font-size: 27px;
+    padding-bottom: 2px;
+    clear: left;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+h3 { font-size: 18px; }
+
+#content h2 {
+    color: #BBB;
+    font-weight: bold;
+    letter-spacing: -2px;
+    line-height: 1;
+}
+
+#container {
+    border: 1px solid #DDD;
+	margin: 10px auto;
+    width: 860px;
+    padding: 0 20px;
+    background: #FFF;
+}
+
+#header { text-align: left; border-bottom: 1px solid #CCC; }
+
+#menu {
+    text-align: left;
+    margin: 15px 0 0;
+    padding: 0;
+}
+
+#menu li {	display: inline; }
+
+#menu a {
+	margin-right: 20px;
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#menu a:hover {
+    text-decoration: underline;
+}
+
+
+/*--------CONTEUDO----------*/
+#content {
+    padding: 20px 0 30px;
+    text-align: left;
+    float: left;
+	width: 600px;
+}
+
+
+/*SIDEBAR----------------*/
+#sidebar {
+    width: 220px;
+    float: right;
+    text-align: left;
+    padding: 20px 0 30px 20px;
+    border-left: 1px dashed #DDD;
+}
+
+#sidebar ul li {
+	padding: 5px 0;
+	list-style: none;
+	border-bottom: 1px dashed #DDD;
+}
+
+/*--- RODAPE ---*/
+#footer {
+    clear: both;
+    text-align: left;
+    padding: 10px 0 20px;
+    border-top: 1px solid #CCC;
+    margin-top: 20px;
+}
