@@ -2,7 +2,7 @@
 # Íon - Shocking simple static (site) generator
 
 ## About
-Static site generators are softwares that produces HTML and other static web formats like JSON as output. This output is then served as any website, just like the early years of web, what makes it fast. Content and templates are kept separated in different files, so changes are easy to make.
+Static site generators are softwares that produces HTML and other static web formats like JSON as output. This output is then served just like the early years of web, what makes it fast. Content and templates are kept separated in different files, so changes are easy to make.
 
 The advantages of static site generators are:
 * Security - No database, no user input, nothing. Just plain old HTML.
