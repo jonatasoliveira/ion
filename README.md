@@ -4,20 +4,20 @@
 ## Quickstart
 
 ### Installing Íon
-Íon comes with a **_ion** folder and a Python **ion.py** script. First you have to put these files in a new directory in your web root. If you want to create more than one site, move **ion.py** out of the directory created and put it in PATH. Anyway, **ion.py** must be run in the root folder of your site (i.e. the same where the folder **_ion** is).
+Íon comes with a **_ion** folder and a Python **ion.py** script. Put these files in a new directory in your web root. If you want to create more than one site, move **ion.py** out of the directory created and put it in system PATH. Regardless of its location, **ion.py** must be run in the root folder of your site (i.e. the same where the folder **_ion** is).
 
-You need Python 3 to run Ion.
+You need Python 3 to run Íon.
 
 ### Configure
 Open the *config.ini* in **_ion** folder and define your settings.
-* **base_url** - Will be used in the templates for absolute linking.
-* **default_theme** - If a custom theme is not provided for a page, this theme will be used
-* **blocked_dirs** - The directories you don't want Ion to read.
+* **base_url** - Will be used by for absolute linking.
+* **default_theme** - If a custom theme is not provided for a page, this theme will be used.
+* **blocked_dirs** - The directories you don't want Íon to read.
 
 ### Create your first page
 Just run the *spark* command in the site root folder to create a new page:
 
-    python3 **ion.py** spark
+    python3 ion.py spark
     
 If you're not in the site root, you have to pass a path as second parameter:
 
@@ -32,7 +32,7 @@ This will create a *data.ion* model file. You're ready to start adding your own 
 
 Now run the charge command to generate the HTML:
     
-    python3 **ion.py** charge
+    python3 ion.py charge
 
 This will create a HTML and a JSON file in the folder you specified. Done!
 
@@ -40,7 +40,7 @@ This will create a HTML and a JSON file in the folder you specified. Done!
 You can add new themes to **_ion/themes**, create and use optional variables without having to edit all your previous *.ion* files. If you want a page to use a specific theme, just add the definition in data.ion:
 
     title: My first post
-    **theme: mytheme**
+    theme: mytheme
     date: 2012/05/20
     content:
     My page content
