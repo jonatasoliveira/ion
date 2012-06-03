@@ -116,7 +116,7 @@ def get_page_data(source_path):
             break
         # will avoid splitting blank lines
         try:
-            key, value = list(map(lambda x: x.strip(), line.split(':')))
+            key, value = list(map(str.strip, line.split(':')))
         except:
             continue
         # read the rest of the file
