@@ -200,7 +200,7 @@ def ion_charge(path):
         # set common page data
         base_url = CFG['base_url']
         page_data['base_url'] = base_url
-        page_data['themes_url'] = '{0}{1}'.format(base_url, CFG['themes_dir'])
+        page_data['themes_url'] = base_url + CFG['themes_dir']
         page_data['permalink'] = base_url + dirname.replace('./', '')
         page_data['styles'] = get_styles(filenames, page_data['permalink'])
         page_data['scripts'] = get_scripts(filenames, page_data['permalink'])
