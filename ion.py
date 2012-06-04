@@ -1,19 +1,21 @@
 # coding: utf-8
 
 '''
-Ion - A very simple static site generator
+===============================================================================
+Ion - A shocking simple static (site) generator
+
 Author: Karlisson M. Bezerra
 E-mail: contact@hacktoon.com
 URL: https://github.com/karlisson/ion
 License: WTFPL - http://sam.zoy.org/wtfpl/COPYING
+
+===============================================================================
 '''
 
 import os
 import json
 import re
 import sys
-import shutil
-from configparser import ConfigParser
 
 
 if sys.version_info.major < 3:
@@ -26,38 +28,70 @@ CFG = {
     'blocked_dirs': []
 }
 
+# this is the model of files used to store content
+# it will be saved to a new file data.ion every
+# time 'ion spark' is called
+DATA_MODEL = '''title: Write your title here
+date: yyyy-mm-dd
+content:
+Write your content here
+'''
+
+
+def parse_config_file(file_path):
+    '''Parse a configuration file and returns data in a dictionary'''
+    config_file = open(file_path)
+    # remove trailing whitespaces and linebreaks
+    lines = [line.strip() for line in config_file.readlines()]
+    config = {}
+    for line in lines:
+        # avoid comments, empty and incorrect lines
+        if line.startswith('#') or not len(line) or '=' not in line:
+            continue
+        key, value = line.split('=')
+        config[key.strip()] = value.strip()
+    config_file.close()
+    return config
+
 
 def load_config():
-    '''Loads a file from a ini file in system folder'''
+    '''Loads a config file from a ini file in system folder'''
+    # getcwd allows calling ion.py from wherever it is located
+    system_dir = os.path.join(os.getcwd(), CFG['system_dir'])
 
-    parser = ConfigParser()
-    # getcwd allows calling ion.py from wherever it is
-    current_dir = os.path.join(os.getcwd(), CFG['system_dir'])
-    config_file = os.path.join(current_dir, 'config.ini')
+    if not os.path.exists(system_dir):
+        sys.exit('Zap! System folder "{0}" doesn\'t exists or couldn\'t be \
+read. It must be in the same directory that ion.py is \
+called.'.format(CFG['system_dir']))
+
     try:
-        parser.read(config_file)
-        ion_config = parser['ion']  # .ini section
+        config = parse_config_file(os.path.join(system_dir, 'config.ini'))
     except:
         sys.exit('Zap! Could not load configuration file!')
+    # try to set a default value if it wasn't defined in config
+    base_url = config.get('base_url', 'http://localhost/')
+    # checks if base_url doesn't have a trailing slash
+    if not base_url.endswith('/'):
+        base_url = base_url + '/'
+    CFG['base_url'] = base_url
 
-    CFG['base_url'] = ion_config.get('base_url', '/')
     CFG['themes_dir'] = os.path.join(CFG['system_dir'], 'themes')
 
-    theme = ion_config.get('default_theme', 'ion')
-    theme_file = theme + '.html'
     # a example theme path: '_ion/themes/ionize/ionize.html'
-    CFG['default_theme'] = os.path.join(CFG['themes_dir'], theme, theme_file)
+    CFG['default_theme'] = config.get('default_theme', 'ionize')
 
     # folders you don't want Ion to access
-    if 'blocked_dirs' in ion_config:
-        for folder in ion_config['blocked_dirs'].split(','):
-            CFG['blocked_dirs'].append(folder.strip())
+    if 'blocked_dirs' in config:
+        for folder in config.get('blocked_dirs'):
+            CFG['blocked_dirs'].append(folder)
     # adds the system dir by default so Ion doesn't
     # read the data model file 'data.ion'
     CFG['blocked_dirs'].append(CFG['system_dir'])
 
 
 def get_styles(files, url):
+    '''Detects if there are CSS files in current folder
+    and returns concatenated link tags for each one'''
     styles = []
     for filename in files:
         if not filename.endswith('.css'):
@@ -69,6 +103,8 @@ def get_styles(files, url):
 
 
 def get_scripts(files, url):
+    '''Detects if there are Javascript files in current folder
+    and returns concatenated script tags for each one'''
     scripts = []
     for filename in files:
         if not filename.endswith('.js'):
@@ -82,12 +118,12 @@ def get_scripts(files, url):
 def build_html(page_data):
     '''Returns the template content populated with page data'''
     # if not using custom theme, use default
+    themes_dir = CFG['themes_dir']
     if 'theme' in page_data.keys():
-        themes_dir = CFG['themes_dir']
-        name = page_data['theme']
-        theme_filepath = '{0}/{1}/{1}.html'.format(themes_dir, name)
+            name = page_data['theme']
     else:
-        theme_filepath = CFG['default_theme']
+        name = CFG['default_theme']
+    theme_filepath = '{0}/{1}/{1}.html'.format(themes_dir, name)
 
     if not os.path.exists(theme_filepath):
         sys.exit('Zap! Template file {0} couldn\'t be \
@@ -153,22 +189,18 @@ def ion_charge(path):
     '''Reads recursively every directory under path and
     outputs HTML/JSON for each data.ion file'''
     for dirname, subdirs, filenames in os.walk(path):
-        # tests for directories that ion shall not read
-        if is_blocked(dirname):
-            continue
         source_filepath = os.path.join(dirname, CFG['source_file'])
-
-        # directory doesn't have a metafile, skip
-        if not os.path.exists(source_filepath):
+        # tests for directories that ion shall not read
+        # or directory doesn't have a metafile
+        if is_blocked(dirname) or not os.path.exists(source_filepath):
             continue
-
         # extracts data from this page
         page_data = get_page_data(source_filepath)
 
         # set common page data
         base_url = CFG['base_url']
         page_data['base_url'] = base_url
-        page_data['themes_url'] = os.path.join(base_url, CFG['themes_dir'])
+        page_data['themes_url'] = '{0}{1}'.format(base_url, CFG['themes_dir'])
         page_data['permalink'] = base_url + dirname.replace('./', '')
         page_data['styles'] = get_styles(filenames, page_data['permalink'])
         page_data['scripts'] = get_scripts(filenames, page_data['permalink'])
@@ -185,14 +217,15 @@ def ion_spark(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
-    # copy data model file to new page
-    dst = os.path.join(path, CFG['source_file'])
-    if not os.path.exists(dst):
+    filepath = os.path.join(path, CFG['source_file'])
+    if not os.path.exists(filepath):
         # copy source file to new path
-        src = os.path.join(CFG['system_dir'], CFG['source_file'])
-        shutil.copy(src, dst)
+        data_file = open(filepath, 'w')
+        data_file.write(DATA_MODEL)
+        data_file.close()
+
         print('Page \'{0}\' successfully created.'.format(path))
-        print('Edit the file {0} and call \'ion charge\'!'.format(dst))
+        print('Edit the file {0} and call \'ion charge\'!'.format(filepath))
     else:
         print('Zap! Page \'{0}\' already exists \
 with a data.ion file.'.format(path))
@@ -207,16 +240,12 @@ def main():
 folder under the path specified and its subfolders, recursively.
     ion.py help - Shows this help message.
     '''
-    if not os.path.exists(CFG['system_dir']):
-        sys.exit('Zap! System folder couldn\'t be accessed. It must \
-be in the same directory that Ion is called.')
 
     # first parameter - command
     try:
         command = sys.argv[1]
     except IndexError:
-        print(help_message)
-        sys.exit()
+        sys.exit(help_message)
 
     # second parameter - path
     # if not provided, defaults to current
