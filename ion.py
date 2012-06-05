@@ -77,7 +77,7 @@ called.'.format(CFG['system_dir']))
 
     CFG['themes_dir'] = os.path.join(CFG['system_dir'], 'themes')
 
-    # a example theme path: '_ion/themes/ionize/ionize.html'
+    # a example theme path: '_ion/themes/ionize/index.html'
     CFG['default_theme'] = config.get('default_theme', 'ionize')
 
     # folders you don't want Ion to access
@@ -123,7 +123,7 @@ def build_html(page_data):
             name = page_data['theme']
     else:
         name = CFG['default_theme']
-    theme_filepath = '{0}/{1}/{1}.html'.format(themes_dir, name)
+    theme_filepath = '{0}/{1}/index.html'.format(themes_dir, name)
 
     if not os.path.exists(theme_filepath):
         sys.exit('Zap! Template file {0} couldn\'t be \
