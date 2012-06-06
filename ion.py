@@ -92,7 +92,7 @@ def build_external_tags(files, permalink):
     styles = []
     scripts = []
     link_tag = '<link rel="stylesheet" type="text/css" href="{0}" />\n'
-    script_tag = '<script src="{0}"></scripts>\n'
+    script_tag = '<script src="{0}"></script>\n'
     for filename in files:
         url = os.path.join(permalink, filename)
         if filename.endswith('.css'):
@@ -188,8 +188,8 @@ def ion_charge(path):
         base_url = CFG['base_url']
         page_data['base_url'] = base_url
         page_data['themes_url'] = base_url + CFG['themes_dir']
-        #removing ./ in the case of root directory of site
-        page_data['permalink'] = base_url + dirname.replace('./', '')
+        #removing '.' of the path in the case of root directory of site
+        page_data['permalink'] = base_url + re.sub('^.$|\.\/', '', dirname)
         # get css and javascript found in the folder
         external_tags = build_external_tags(filenames, page_data['permalink'])
         page_data['styles'] = external_tags['styles']
