@@ -70,10 +70,8 @@ called.'.format(CFG['system_dir']))
         sys.exit('Zap! Could not load configuration file!')
     # try to set a default value if it wasn't defined in config
     base_url = config.get('base_url', 'http://localhost/')
-    # checks if base_url doesn't have a trailing slash
-    if not base_url.endswith('/'):
-        base_url = base_url + '/'
-    CFG['base_url'] = base_url
+    # will add a trailing slash if not informed
+    CFG['base_url'] = os.path.join(base_url, '')
 
     CFG['themes_dir'] = os.path.join(CFG['system_dir'], 'themes')
 
@@ -84,35 +82,24 @@ called.'.format(CFG['system_dir']))
     if 'blocked_dirs' in config:
         for folder in config.get('blocked_dirs'):
             CFG['blocked_dirs'].append(folder)
-    # adds the system dir by default so Ion doesn't
-    # read the data model file 'data.ion'
+    # adds the system dir by default
     CFG['blocked_dirs'].append(CFG['system_dir'])
 
 
-def get_styles(files, url):
-    '''Detects if there are CSS files in current folder
-    and returns concatenated link tags for each one'''
+def build_external_tags(files, permalink):
+    '''Detects if there are CSS and Javascript files in current folder
+    and returns concatenated link/script tags for each one'''
     styles = []
-    for filename in files:
-        if not filename.endswith('.css'):
-            continue
-        css = os.path.join(url, filename)
-        link_tag = '<link rel="stylesheet" type="text/css" href="{0}" />\n'
-        styles.append(link_tag.format(css))
-    return ''.join(styles)
-
-
-def get_scripts(files, url):
-    '''Detects if there are Javascript files in current folder
-    and returns concatenated script tags for each one'''
     scripts = []
+    link_tag = '<link rel="stylesheet" type="text/css" href="{0}" />\n'
+    script_tag = '<script src="{0}"></scripts>\n'
     for filename in files:
-        if not filename.endswith('.js'):
-            continue
-        js = os.path.join(url, filename)
-        script_tag = '<script src="{0}"></scripts>\n'
-        scripts.append(script_tag.format(js))
-    return ''.join(scripts)
+        url = os.path.join(permalink, filename)
+        if filename.endswith('.css'):
+            styles.append(link_tag.format(url))
+        elif filename.endswith('.js'):
+            scripts.append(script_tag.format(url))
+    return {'styles': ''.join(styles), 'scripts':''.join(scripts)}
 
 
 def build_html(page_data):
@@ -201,9 +188,12 @@ def ion_charge(path):
         base_url = CFG['base_url']
         page_data['base_url'] = base_url
         page_data['themes_url'] = base_url + CFG['themes_dir']
+        #removing ./ in the case of root directory of site
         page_data['permalink'] = base_url + dirname.replace('./', '')
-        page_data['styles'] = get_styles(filenames, page_data['permalink'])
-        page_data['scripts'] = get_scripts(filenames, page_data['permalink'])
+        # get css and javascript found in the folder
+        external_tags = build_external_tags(filenames, page_data['permalink'])
+        page_data['styles'] = external_tags['styles']
+        page_data['scripts'] = external_tags['scripts']
 
         # saves a json file
         save_json(dirname, page_data)
