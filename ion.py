@@ -55,7 +55,7 @@ def parse_config_file(file_path):
 
 
 def load_config():
-    '''Loads a config file from a ini file in system folder'''
+    '''Loads the config file in system folder'''
     # getcwd allows calling ion.py from wherever it is located
     system_dir = os.path.join(os.getcwd(), CFG['system_dir'])
 
@@ -65,16 +65,16 @@ read. It must be in the same directory that ion.py is \
 called.'.format(CFG['system_dir']))
 
     try:
-        config = parse_config_file(os.path.join(system_dir, 'config.ini'))
+        config = parse_config_file(os.path.join(system_dir, 'config.ion'))
     except:
         sys.exit('Zap! Could not load configuration file!')
     # try to set a default value if it wasn't defined in config
     base_url = config.get('base_url', 'http://localhost/')
-    # will add a trailing slash if not informed
+    
+    # will add a trailing slash, if not informed
     CFG['base_url'] = os.path.join(base_url, '')
-
     CFG['themes_dir'] = os.path.join(CFG['system_dir'], 'themes')
-
+    
     # a example theme path: '_ion/themes/ionize/index.html'
     CFG['default_theme'] = config.get('default_theme', 'ionize')
 
